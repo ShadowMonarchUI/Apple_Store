@@ -31,6 +31,9 @@ DEBUG = os.getenv('DEBUG', 'True') == 'True'
 allowed_hosts_env = os.getenv('ALLOWED_HOSTS', '')
 ALLOWED_HOSTS = allowed_hosts_env.split(',') if allowed_hosts_env else []
 
+# Fix for Django 4.0+ CSRF over HTTPS (Render)
+CSRF_TRUSTED_ORIGINS = [f"https://{host}" for host in ALLOWED_HOSTS if host != '*']
+
 
 # Application definition
 
