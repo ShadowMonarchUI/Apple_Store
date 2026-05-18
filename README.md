@@ -109,3 +109,14 @@ python manage.py sync_apple_products
 python manage.py runserver
 ```
 Navigate to `http://127.0.0.1:8000/` in your browser to experience the store!
+
+## 🚀 Deployment (Render/Railway)
+This project is pre-configured for deployment on platforms like Render or Railway. 
+1. Connect your GitHub repository to Render/Railway.
+2. The platform will automatically detect the `requirements.txt` and `Procfile`.
+3. In your host's dashboard, set the following Environment Variables:
+   - `SECRET_KEY`: (Generate a long, random string)
+   - `DEBUG`: `False`
+   - `ALLOWED_HOSTS`: `your-app-url.onrender.com`
+   - `DATABASE_URL`: (Your hosted PostgreSQL/MySQL connection string)
+4. Deploy!
