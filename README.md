@@ -2,6 +2,8 @@
 
 A highly polished, premium, glassmorphism-themed e-commerce platform built with Django. This project perfectly mimics the aesthetic of the Apple Store, featuring high-contrast dark modes, immersive animations, and robust shopping capabilities.
 
+**🌟 Live Demo:** [https://apple-store-uuqr.onrender.com/](https://apple-store-uuqr.onrender.com/)
+
 ## 🚀 Features
 
 - **Cinematic UI/UX:** Built with Bootstrap 5 and custom CSS to achieve deep black backgrounds, bento-box layouts, and frosted glassmorphism elements.
