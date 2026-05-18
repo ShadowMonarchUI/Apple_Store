@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}Apple Store - Account Settings{% endblock %}
+
+{% block content %}
+<div class="container py-5" style="margin-top: 10vh;">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <h1 class="display-5 fw-bold text-white mb-5 text-center">Account Settings.</h1>
+            
+            <div class="bento-box p-5">
+                <div class="text-center mb-5">
+                    {% if user.profile.profile_pic %}
+                    <img src="{{ user.profile.profile_pic.url }}" alt="Profile Pic" class="rounded-circle border border-secondary mb-3 object-fit-cover" style="width: 100px; height: 100px;">
+                    {% else %}
+                    <div class="user-avatar bg-dark text-white rounded-circle d-inline-flex align-items-center justify-content-center border border-secondary mb-3" style="width: 100px; height: 100px; font-size: 2.5rem;">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+                    {% endif %}
+                    
+                    <h3 class="text-white">{{ user.username }}</h3>
+                    <p class="text-white-50">{{ user.email }}</p>
+                    
+                    <button class="btn btn-outline-light btn-sm rounded-pill mt-2" type="button" data-bs-toggle="collapse" data-bs-target="#uploadForm">
+                        Change Picture
+                    </button>
+                    
+                    <div class="collapse mt-3" id="uploadForm">
+                        <form method="post" enctype="multipart/form-data" class="bg-dark p-3 rounded border border-secondary text-start mx-auto" style="max-width: 300px;">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="btn btn-buy glow-btn w-100 mt-2 py-1">Upload</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="list-group list-group-flush bg-transparent">
+                    <a href="{% url 'my_orders' %}" class="list-group-item list-group-item-action bg-transparent text-white border-secondary py-3 d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="bi bi-box-seam me-3 text-white-50"></i> Your Orders
+                        </div>
+                        <i class="bi bi-chevron-right text-white-50"></i>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action bg-transparent text-white border-secondary py-3 d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="bi bi-shield-lock me-3 text-white-50"></i> Login & Security
+                        </div>
+                        <i class="bi bi-chevron-right text-white-50"></i>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action bg-transparent text-white border-secondary py-3 d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="bi bi-geo-alt me-3 text-white-50"></i> Your Addresses
+                        </div>
+                        <i class="bi bi-chevron-right text-white-50"></i>
+                    </a>
+                </div>
+                
+                <div class="mt-5 text-center">
+                    <a href="{% url 'logout' %}" class="btn btn-outline-danger rounded-pill px-5">Sign Out</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

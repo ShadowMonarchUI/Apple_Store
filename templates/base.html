@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Apple Store{% endblock %}</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <!-- Premium Apple-style Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top premium-nav">
+        <div class="container-fluid px-4 px-md-5">
+            <a class="navbar-brand text-white d-flex align-items-center" href="{% url 'home' %}">
+                <i class="bi bi-apple fs-4 me-2"></i> <span class="brand-text fw-bold fs-5">Store</span>
+            </a>
+            
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="bi bi-list text-white fs-3"></i>
+            </button>
+            
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav gap-2 gap-lg-4">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}?category=Mac">Mac</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}?category=iPad">iPad</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}?category=iPhone">iPhone</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}?category=Watch">Watch</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}?category=Vision">Vision</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}?category=AirPods">AirPods</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-icons d-none d-lg-flex align-items-center gap-4">
+                <form action="{% url 'home' %}" method="get" class="d-flex align-items-center" style="position: relative;">
+                    <input type="text" name="q" placeholder="Search..." class="form-control glass-input py-1 px-3 text-white" style="width: 150px; font-size: 0.85rem; padding-right: 30px;">
+                    <button type="submit" class="btn btn-link p-0 position-absolute end-0 me-2 text-white">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </form>
+                
+                {% if user.is_authenticated %}
+                <div class="dropdown">
+                    <a href="#" class="nav-icon text-white text-decoration-none dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
+                        {% if user.profile.profile_pic %}
+                        <img src="{{ user.profile.profile_pic.url }}" alt="User" class="rounded-circle border border-secondary object-fit-cover" style="width: 30px; height: 30px;">
+                        {% else %}
+                        <div class="user-avatar bg-dark text-white rounded-circle d-flex align-items-center justify-content-center border border-secondary" style="width: 30px; height: 30px;">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        {% endif %}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end glass-dropdown mt-2">
+                        <li><h6 class="dropdown-header text-white-50">Hi, {{ user.username }}</h6></li>
+                        <li><hr class="dropdown-divider border-secondary"></li>
+                        <li><a class="dropdown-item text-white" href="{% url 'my_orders' %}">Orders</a></li>
+                        <li><a class="dropdown-item text-white" href="{% url 'account_settings' %}">Account Settings</a></li>
+                        <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">Sign Out</a></li>
+                    </ul>
+                </div>
+                {% else %}
+                <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm rounded-pill px-3 fw-medium">Sign In</a>
+                {% endif %}
+                
+                <a href="{% url 'view_cart' %}" class="nav-icon position-relative">
+                    <i class="bi bi-bag text-white fs-5"></i>
+                    {% if cart_item_count > 0 %}
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary" style="font-size: 0.6rem; transform: translate(-30%, -30%) !important;">
+                        {{ cart_item_count }}
+                    </span>
+                    {% endif %}
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="content-wrapper">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-5 border-top border-dark mt-auto" style="background-color: var(--apple-bg);">
+        <div class="container text-center">
+            <div class="d-flex justify-content-center gap-4 mb-4">
+                <a href="{% url 'help' %}" class="text-white-50 text-decoration-none hover-white">Help & Support</a>
+                <a href="{% url 'contact' %}" class="text-white-50 text-decoration-none hover-white">Contact Us</a>
+            </div>
+            <p class="text-white-50 small mb-0">Copyright &copy; 2026 Apple Store Inc. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- GSAP Core & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

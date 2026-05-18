@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Apple Store - Contact Us{% endblock %}
+
+{% block content %}
+<div class="container py-5" style="margin-top: 10vh;">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <h1 class="display-5 fw-bold text-white text-center mb-4">Contact Us.</h1>
+            <p class="text-white-50 text-center mb-5">We're here to help. Send us a message and we'll respond as soon as possible.</p>
+            
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags|default:'info' }} bg-dark text-white border-0" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <div class="bento-box p-4 p-md-5 shadow-lg">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label class="form-label text-white-50">Name</label>
+                        <input type="text" name="name" class="form-control glass-input" required {% if user.is_authenticated %}value="{{ user.username }}"{% endif %}>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label text-white-50">Email Address</label>
+                        <input type="email" name="email" class="form-control glass-input" required {% if user.is_authenticated %}value="{{ user.email }}"{% endif %}>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label text-white-50">Message</label>
+                        <textarea name="message" class="form-control glass-input" rows="5" required placeholder="How can we help you today?"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-buy glow-btn w-100 py-3 fs-5 rounded-pill">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

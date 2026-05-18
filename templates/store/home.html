@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Split-Screen Hero Section -->
+<section class="hero-section min-vh-100 d-flex align-items-center position-relative overflow-hidden">
+    <!-- Animated Gradient Background -->
+    <div class="hero-gradient-bg position-absolute w-100 h-100 top-0 start-0 z-0"></div>
+    
+    <div class="container position-relative z-1">
+        <div class="row align-items-center">
+            <!-- Left: Typography -->
+            <div class="col-lg-6 hero-text-container pe-lg-5">
+                <h1 class="hero-title display-1 fw-bold text-white mb-3" style="letter-spacing: -0.04em;">
+                    Pro.<br>Beyond.
+                </h1>
+                <p class="hero-subtitle lead text-white-50 mb-5 fs-4" style="max-width: 500px;">
+                    Experience the unprecedented power of the next generation. Forged in titanium.
+                </p>
+                <div class="hero-cta">
+                    <a href="#products-grid" class="btn btn-buy glow-btn rounded-pill px-5 py-3 fs-5 me-3">Shop Now</a>
+                    <a href="#" class="btn btn-outline-light rounded-pill px-5 py-3 fs-5 text-white">Learn More</a>
+                </div>
+            </div>
+            
+            <!-- Right: Floating Product -->
+            <div class="col-lg-6 d-none d-lg-block text-center mt-5 mt-lg-0 hero-image-container">
+                <img src="{% static 'images/iphone_pro.png' %}" alt="iPhone 15 Pro" class="img-fluid hero-floating-img" style="max-height: 80vh; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Uniform Product Grid Section -->
+<section id="products-grid" class="py-5 db-products-section" style="background-color: #000;">
+    <div class="container py-5">
+        <div class="text-center text-reveal-trigger mb-5">
+            <h2 class="display-4 fw-bold text-white">The Latest.</h2>
+            <p class="text-white-50 fs-5">Take a look at what's new, right now.</p>
+        </div>
+
+        <!-- CSS Grid Layout -->
+        <div class="product-grid">
+            {% for product in products %}
+            <div class="product-card bento-box d-flex flex-column">
+                <div class="product-img-wrapper text-center p-4" style="height: 250px;">
+                    {% if product.image_url %}
+                    <img src="{{ product.image_url }}" alt="{{ product.name }}" class="img-fluid h-100 object-fit-contain product-img">
+                    {% else %}
+                    <img src="{% static 'images/iphone_pro.png' %}" alt="Placeholder" class="img-fluid h-100 object-fit-contain product-img">
+                    {% endif %}
+                </div>
+                <div class="product-info p-4 d-flex flex-column flex-grow-1 border-top border-dark">
+                    <h4 class="fw-bold text-white mb-2 fs-5">{{ product.name }}</h4>
+                    <p class="text-white-50 small flex-grow-1">{{ product.description|truncatewords:15 }}</p>
+                    <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top border-dark">
+                        <span class="fs-5 fw-bold text-white">${{ product.price }}</span>
+                        <a href="{% url 'add_to_cart' product.id %}" class="btn btn-sm btn-buy glow-btn rounded-pill px-4">Buy</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

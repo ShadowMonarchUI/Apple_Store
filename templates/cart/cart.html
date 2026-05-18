@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Apple Store - Shopping Cart{% endblock %}
+
+{% block content %}
+<div class="container py-5" style="margin-top: 8vh;">
+    <h1 class="display-5 fw-bold text-white mb-5">Shopping Cart</h1>
+    
+    {% if items %}
+    <div class="row g-4">
+        <!-- Left Column: Cart Items -->
+        <div class="col-lg-8">
+            <div class="bento-box p-4">
+                <h4 class="text-white mb-4 border-bottom border-dark pb-3">Cart Items</h4>
+                
+                {% for item in items %}
+                <div class="row align-items-center mb-4 pb-4 {% if not forloop.last %}border-bottom border-dark{% endif %} cart-item-row">
+                    <div class="col-4 col-md-3 text-center">
+                        {% if item.product.image_url %}
+                        <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}" class="img-fluid rounded" style="max-height: 120px; object-fit: contain;">
+                        {% else %}
+                        <img src="{% static 'images/iphone_pro.png' %}" alt="Placeholder" class="img-fluid rounded" style="max-height: 120px;">
+                        {% endif %}
+                    </div>
+                    
+                    <div class="col-8 col-md-6">
+                        <h5 class="fw-bold text-white mb-2">{{ item.product.name }}</h5>
+                        <p class="text-success small fw-bold mb-2">In Stock</p>
+                        <p class="text-white-50 small mb-3">Free Shipping Available</p>
+                        
+                        <div class="d-flex align-items-center gap-3 mt-3">
+                            <div class="d-flex align-items-center bg-dark rounded px-2 py-1">
+                                <a href="{% url 'update_cart_quantity' item.id 'sub' %}" class="text-white text-decoration-none px-2"><i class="bi bi-dash"></i></a>
+                                <span class="text-white px-3 border-start border-end border-secondary">{{ item.quantity }}</span>
+                                <a href="{% url 'update_cart_quantity' item.id 'add' %}" class="text-white text-decoration-none px-2"><i class="bi bi-plus"></i></a>
+                            </div>
+                            <div class="vr bg-secondary"></div>
+                            <a href="{% url 'remove_from_cart' item.id %}" class="text-danger small text-decoration-none hover-underline">Delete</a>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12 col-md-3 text-md-end mt-3 mt-md-0">
+                        <span class="fs-4 fw-bold text-white">${% widthratio item.product.price 1 item.quantity %}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <!-- Right Column: Order Summary (Amazon Style) -->
+        <div class="col-lg-4">
+            <div class="bento-box p-4 sticky-top" style="top: 100px;">
+                <h4 class="text-white mb-4">Order Summary</h4>
+                
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-white-50">Items:</span>
+                    <span class="text-white">${{ total }}</span>
+                </div>
+                <div class="d-flex justify-content-between mb-3 border-bottom border-dark pb-3">
+                    <span class="text-white-50">Shipping & handling:</span>
+                    <span class="text-white">$0.00</span>
+                </div>
+                
+                <div class="d-flex justify-content-between mb-4">
+                    <span class="fs-5 fw-bold text-white">Order Total:</span>
+                    <span class="fs-4 fw-bold text-white">${{ total }}</span>
+                </div>
+                
+                <a href="{% url 'checkout' %}" class="btn btn-buy glow-btn w-100 py-3 mb-3 fw-bold rounded-pill shadow-lg">Proceed to Checkout</a>
+                <p class="text-white-50 text-center small m-0" style="font-size: 0.75rem;">Secure checkout powered by Apple Store.</p>
+            </div>
+        </div>
+    </div>
+    
+    {% else %}
+    <div class="bento-box p-5 text-center">
+        <i class="bi bi-cart-x text-white-50 mb-4" style="font-size: 4rem;"></i>
+        <h2 class="text-white mb-3">Your Amazon-style Cart is empty.</h2>
+        <p class="text-white-50 mb-4">Check your Saved for later items below or continue shopping.</p>
+        <a href="{% url 'home' %}" class="btn btn-buy glow-btn px-5 py-2 rounded-pill">Continue Shopping</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
